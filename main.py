@@ -29,10 +29,10 @@ rain_2 = Pre.Pre.convertTimeC(rain_2)
 sample = Pre.Pre.convertTimeS(sample)
 
 # MARKER: creating an example data set:
-rain_2[3] = rain_2[3] * 0.1
+# rain_2[3] = rain_2[3] * 0.1
 
 
-MODNUM = 4          # LPM; 1 = Piston Flow, 2 = Exponential Model,
+MODNUM = 2          # LPM; 1 = Piston Flow, 2 = Exponential Model,
 #                     3 = Dispersion Model, 4 = Linear Model,
 #                     5 = Exponential Piston Flow Model
 SOILM = 0           # Unsaturated zone
@@ -63,11 +63,11 @@ elif SOILM == 2:
 ##############################################################################
 ##############################################################################
 
-Pre.Pre(par)
+# Pre.Pre(par)
 
-result = Calculate.Tracer(par, Cin, rain)
+# result = Calculate.Tracer(par, Cin, rain)
 
-Post.Post.tracer(result.result, rain, sample)
+# Post.Post.tracer(result.result, rain, sample)
 
 ##############################################################################
 ##############################################################################
@@ -82,3 +82,17 @@ Post.Post.tracer(result.result, rain, sample)
 # result = Calculate.TracerTracer(par, Cin, Cin_2, rain, rain_2, TTs)
 
 # Post.Post.tracerTracer(result.result_tt, rain, rain_2, date, show_gw_age, TTs)
+
+##############################################################################
+##############################################################################
+####################################Tri-He####################################
+##############################################################################
+##############################################################################
+
+Pre.Pre(par)
+
+TTs = np.arange(2.5, 100, 2.5)
+
+result = Calculate.TriHe(par, Cin, rain, TTs)
+
+Post.Post.triHe1(result.result_tt, rain, date, show_gw_age, TTs)

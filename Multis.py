@@ -24,41 +24,41 @@ the results!')
 
         if par.step == 0:
             lambda_ = lambda_ / 12
-            par.TT = par.TT * 12
+            TT = par.TT * 12
         t = np.arange(1, n+1)
 
-        par.TT_round = round(par.TT, 0)
+        TT_round = round(TT, 0)
 
         print('Used Model:')
 
         if par.MODNUM == 1:  # Piston Flow Model
             print('PFM')
             f = np.zeros(n)
-            if int(par.TT_round) <= n:
-                f[int(par.TT_round)-1] = 1
+            if int(TT_round) <= n:
+                f[int(TT_round)-1] = 1
             else:
-                print('An error occured. par.TT > sim per')
+                print('An error occured. TT > sim per')
 
         elif par.MODNUM == 2:  # Exponential Model
             print('Exponential Model')
-            f = 1/par.TT * np.exp(-t/par.TT)
+            f = 1/TT * np.exp(-t/TT)
 
         elif par.MODNUM == 3:  # Dispersion Model
             print('Dispersion Model')
             PD = par.PD
-            f = (4 * np.pi * PD * t / par.TT)**(-0.5) * 1 / t *\
-                np.exp(-(1 - t / par.TT)**2 / (4 * PD * t / par.TT))
+            f = (4 * np.pi * PD * t / TT)**(-0.5) * 1 / t *\
+                np.exp(-(1 - t / TT)**2 / (4 * PD * t / TT))
 
         elif par.MODNUM == 4:  # Linear Model
             print('Linear Model')
             f = np.zeros((n))
-            ind = np.where(t <= (2 * par.TT))
-            f[ind[0][0]:ind[0][-1]+1] = 1/(2*par.TT)
+            ind = np.where(t <= (2 * TT))
+            f[ind[0][0]:ind[0][-1]+1] = 1/(2*TT)
 
         elif par.MODNUM == 5:
             print('Exponential Piston Flow Model')
-            f = eta / par.TT * np.exp(- (eta * t) / par.TT + eta - 1)
-            ind = np.where(t <= (eta-1)*par.TT/eta)
+            f = eta / TT * np.exp(- (eta * t) / TT + eta - 1)
+            ind = np.where(t <= (eta-1)*TT/eta)
             if ind[0].size > 0:
                 f[ind[0][0]:ind[0][-1]+1] = 0
 
@@ -70,5 +70,6 @@ the results!')
             temp[i-1, i-1:n+i-1] = Cin[i-1] * np.exp(-lambda_ * t) * f
         global Cout
         Cout = np.sum(temp, axis=0)
+        print(TT_round)
 
         return Cout

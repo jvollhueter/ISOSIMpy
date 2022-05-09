@@ -35,8 +35,6 @@ class Post():
         ax1.grid()
         ax2.grid()
 
-
-
     def tracerTracer(result_tt, rain, rain_2, date, show_gw_age, TTs):
         """Visualize the result of the tracer tracer calculations."""
         result_tt = np.transpose(result_tt, axes=[2, 1, 0])
@@ -61,7 +59,7 @@ class Post():
         k = 0
         j = 0
 
-        tau = np.zeros((2, 4, len(show_gw_age)))
+        tau = np.zeros(2, 4, len(show_gw_age))
         for i in TTs:
             if i in show_gw_age:
                 plt.text(result_tt[date, k, 0]*1.02,
@@ -84,3 +82,29 @@ class Post():
         ax2.grid()
         ax1.legend()
         ax2.legend(title='Tritium free water [%]:')
+
+    def triHe1(result_tt, rain, date, show_gw_age, TTs):
+        """Visualize the result of the tritium helium calculations."""
+        fig = plt.figure(figsize=(10, 20), constrained_layout=True)
+        ax1 = fig.add_subplot(3, 1, 1)
+        ax2 = fig.add_subplot(3, 1, 2)
+
+        ax1.plot(rain['Date'], rain[3])
+
+        ax2.plot(TTs,
+                 result_tt[0, :, date] / result_tt[1, :, date])
+        ax2.scatter(TTs,
+                    result_tt[0, :, date] / result_tt[1, :, date])
+
+        ax1.set(title='Input concentration',
+                ylabel='$c_{Trithium}$ [TU]',
+                xlabel='t',
+                ylim=0)
+        ax2.set(title='Output concentration on ' + str(rain['Date'][date]),
+                xlabel='$T$ [a]',
+                ylabel='$c_{3H/(3H+4He)}$',
+                xlim=0,
+                ylim=0)
+
+        ax1.grid()
+        ax2.grid()

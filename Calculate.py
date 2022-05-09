@@ -14,8 +14,9 @@ class Tracer:
 
     def __init__(self, par, Cin, rain):
 
-        par.Thalf = par.Thalf_1
         Multis.Multis()
+
+        par.Thalf = par.Thalf_1
 
         res = Multis.Multis.runMultis(Cin, rain[1], par)
 
@@ -31,6 +32,7 @@ class TracerTracer:
 
         k = 0
         for n in TTs:
+
             Multis.Multis()
 
             par.TT = n
@@ -43,4 +45,31 @@ class TracerTracer:
             result_tt[1, k] = res[:rain_2.shape[0]]
 
             k += 1
+
+        self.result_tt = result_tt
+
+
+class TriHe:
+    """Calculate tritium helium."""
+
+    def __init__(self, par, Cin, rain, TTs):
+
+        result_tt = np.zeros((2, len(TTs), rain.shape[0]))
+
+        k = 0
+        for n in TTs:
+
+            Multis.Multis()
+
+            par.TT = n
+            par.Thalf = par.Thalf_1
+            res = Multis.Multis.runMultis(Cin, rain[1], par)
+            result_tt[0, k] = res[:rain.shape[0]]
+
+            par.Thalf = par.Thalf_2
+            res = Multis.Multis.runMultis(Cin, rain[1], par)
+            result_tt[1, k] = res[:rain.shape[0]]
+
+            k += 1
+
         self.result_tt = result_tt
