@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Project>
+    <name> Example_Setup </name>
+    <mode> tracer </mode>
+    <external_files>
+        <input_P_c_1>
+            <type> csv </type>
+            <path> in/precipitation.csv </path> 
+        </input_P_c_1>
+        <input_P_c_2>
+            <type> csv </type>
+            <path> in/precipitation_2.csv </path> 
+        </input_P_c_2>
+        <samples_c>
+            <type> csv </type>
+            <path> in/samples.csv </path>
+        </samples_c>
+    </external_files>
+    <unsateraded_zone>
+        <type>
+            None
+        </type>
+        <path>
+            in/vadose_zone.csv
+        </path>
+    </unsateraded_zone>
+    <lpm>
+        <type> 2 </type>
+    </lpm>
+    <parametrisation>
+        <mean_gw_age> 10 </mean_gw_age>
+        <halftime_1> 12.4 </halftime_1>
+        <halftime_2> inf </halftime_2>
+        <PD> 0.1 </PD>
+        <eta> 0.5 </eta>
+    </parametrisation>
+    <post>
+        <write_output> True </write_output>>
+        <mode_not_tracer>
+            <date> 01/01/2000 </date> <!--US format: MM/DD/YYYY--> 
+        </mode_not_tracer>
+        <figure>
+            <type> 1 </type>
+            <path> out/fig/ </path>
+        </figure>
+        <text_file>
+            <type> ASCII </type>
+            <path> out/ </path>
+        </text_file>
+    </post>
+</Project>

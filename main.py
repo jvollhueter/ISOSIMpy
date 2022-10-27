@@ -1,98 +1,105 @@
 # -*- coding: utf-8 -*-
 """
-@date: 02/2022
+@date: 2022
 
-@author: Thomas Woehling, Gesche Reumann, Jonas Vollhueter, Diana Burghardt
+@author: Jonas Vollhueter
 """
-import numpy as np
-
+import pandas as pd
+from lxml import etree
 import Pre
 import Calculate
 import Post
 
-# Doc
-# Check markers
-
-pfile = r'in/precipitation.csv'
-pfile_2 = r'in/precipitation.csv'
-sfile = r'in/samples.csv'
-date = 600
-
-show_gw_age = [5, 10, 20, 40, 80]
-
-rain = Pre.Pre.readDatas(pfile)
-rain_2 = Pre.Pre.readDatas(pfile_2)
-sample = Pre.Pre.readDatas(sfile)
-
-rain = Pre.Pre.convertTimeC(rain)
-rain_2 = Pre.Pre.convertTimeC(rain_2)
-sample = Pre.Pre.convertTimeS(sample)
-
-# MARKER: creating an example data set:
-# rain_2[3] = rain_2[3] * 0.1
+path_to_xml = 'settings.xml'
 
 
-MODNUM = 2          # LPM; 1 = Piston Flow, 2 = Exponential Model,
-#                     3 = Dispersion Model, 4 = Linear Model,
-#                     5 = Exponential Piston Flow Model
-SOILM = 0           # Unsaturated zone
-step = 0        # Calculation time step (0-month,1-year)
-TT = 20         # mean travel time in [years]
-Thalf_1 = 12.4  #
-Thalf_2 = np.inf    #
-PD = 0.1        # = 1/Pe = D/vx = 0.01 .. 1,  dispersion coefficient
-eta = 0.5       # V/Vem = ratio of total volume of water to volume
-#                     characterized by exponential TTD
-par = Pre.Par(step, TT, Thalf_1, PD, eta, Thalf_2, SOILM, MODNUM)
+class Project():
+    # This class reads the xml setting file and defines the content of the
+    # file as attributes of the class Project.
 
-# unsaturaded zone
+    def __init__(self, path_to_xml):
 
-if SOILM == 0:
-    GWN = rain[2]
-    GWN_2 = rain_2[2]
-    Cin = rain[3]
-    Cin_2 = rain_2[3]
-elif SOILM == 1:
-    pass
-elif SOILM == 2:
-    pass
+        def findChild(parent, key):
+            child = parent.find(key)
+            if child is None:
+                raise KeyError("Section '" + key + "' is missing in xml file")
+            return child
 
-##############################################################################
-##############################################################################
-####################################Tracer####################################
-##############################################################################
-##############################################################################
+        tree = etree.parse(path_to_xml)
+        root = tree.getroot()
 
-# Pre.Pre(par)
+        for tag in root.iter():
+            tag.text = tag.text.strip()
 
-# result = Calculate.Tracer(par, Cin, rain)
+        self.name = findChild(root, 'name').text
 
-# Post.Post.tracer(result.result, rain, sample)
+        self.mode = findChild(root, 'mode').text
 
-##############################################################################
-##############################################################################
-################################Tracer-Tracer#################################
-##############################################################################
-##############################################################################
+        external_files = findChild(root, 'external_files')
 
-# Pre.Pre(par)
+        file_1 = findChild(external_files, 'input_P_c_1')
+        self.input_c_1_type = findChild(file_1, 'type').text
+        self.input_c_1_path = findChild(file_1, 'path').text
 
-# TTs = np.arange(2.5, 100, 2.5)
+        file_2 = findChild(external_files, 'input_P_c_2')
+        self.input_c_2_type = findChild(file_2, 'type').text
+        self.input_c_2_path = findChild(file_2, 'path').text
 
-# result = Calculate.TracerTracer(par, Cin, Cin_2, rain, rain_2, TTs)
+        file_3 = findChild(external_files, 'samples_c')
+        self.sample_file_type = findChild(file_3, 'type').text
+        self.sample_file_path = findChild(file_3, 'path').text
 
-# Post.Post.tracerTracer(result.result_tt, rain, rain_2, date, show_gw_age, TTs)
+        uz = findChild(root, 'unsateraded_zone')
+        self.uz_type = findChild(uz, 'type').text
+        self.uz_path = findChild(uz, 'path').text
 
-##############################################################################
-##############################################################################
-####################################Tri-He####################################
-##############################################################################
-##############################################################################
+        lpm = findChild(root, 'lpm')
+        self.lpm_type = findChild(lpm, 'type').text
 
-Pre.Pre(par)
+        parametrisation = findChild(root, 'parametrisation')
+        self.mean_gw_age = int(findChild(parametrisation, 'mean_gw_age').text)
+        self.halftime_1 = float(findChild(parametrisation, 'halftime_1').text)
+        self.halftime_2 = float(findChild(parametrisation, 'halftime_2').text)
+        self.PD = float(findChild(parametrisation, 'PD').text)
+        self.eta = float(findChild(parametrisation, 'eta').text)
 
-TTs = np.arange(2.5, 100, 2.5)
+        post = findChild(root, 'post')
+        self.write_output = findChild(post, 'write_output').text
+        not_tracer = findChild(post, 'mode_not_tracer')
+        date = findChild(not_tracer, 'date').text
+        self.date = pd.to_datetime(date)
+        figure = findChild(post, 'figure')
+        self.out_fig_type = findChild(figure, 'type').text
+        self.out_fig_path = findChild(figure, 'path').text
+        text_file = findChild(post, 'text_file')
 
-result = Calculate.TriHe(par, Cin, rain, TTs)
+        self.out_text_type = findChild(text_file, 'type').text
+        self.out_text_path = findChild(text_file, 'path').text
+        self.weighted = False
 
-Post.Post.triHe1(result.result_tt, rain, date, show_gw_age, TTs)
+
+par = Project(path_to_xml)
+
+data_frames = Pre.PreSettingOne(par)
+
+if par.mode == 'tracer':
+
+    calc = Calculate.Tracer(par, data_frames.c_in_1)
+
+    Post.Post.tracer(calc.result, data_frames.c_in_1, data_frames.sample, par)
+
+elif par.mode == 'tracer_tracer':
+
+    calc = Calculate.TracerTracer(par, data_frames.c_in_1, data_frames.c_in_2)
+
+    Post.Post.tracerTracer(calc.result, data_frames, par)
+
+elif par.mode == 'tritium_helium':
+
+    calc = Calculate.TracerTracer(par, data_frames.c_in_1, data_frames.c_in_2)
+
+    Post.Post.triHeVis1(calc.result, data_frames, par)
+
+else:
+    raise KeyError("""Section mode in xml file has a not known value.
+Please check for typos and if necessary read the manual.""")

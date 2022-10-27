@@ -1,35 +1,41 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Mar 28 12:20:52 2022
+@date: 2022
 
-@author: Vollhüter
+@author: Jonas Vollhueter
 """
 
 import pandas as pd
 import numpy as np
 
-class Pre:
+class PreSettingOne():
+
+    def __init__(self, par):
+
+        self.rain = PrepareData.readDatas(par.input_c_1_path)
+        self.rain_2 = PrepareData.readDatas(par.input_c_2_path)
+        self.sample = PrepareData.readDatas(par.sample_file_path) 
+        self.rain = PrepareData.convertTimeC(self.rain)
+        self.rain_2 = PrepareData.convertTimeC( self.rain_2)
+        self.sample = PrepareData.convertTimeS(self.sample)
+        self.rain = PrepareData.checkZero(self.rain)
+        self.rain_2 = PrepareData.checkZero(self.rain_2)
+        self.c_in_1 = PrepareData.weightVolumes(par, self.rain)
+        self.c_in_2 = PrepareData.weightVolumes(par, self.rain_2)
+        par.TTs = np.arange(2.5, 102.5, 2.5)
+        par.vis_gw_age = [5, 10, 20, 40, 80]
+
+class PrepareData:
     """Pre processing."""
 
     def __init__(self, par):
-        try:
-            par.SOILM != 0
-        except KeyError:
-            print("""Parameter SOILM has to be 0. There is no pre processing
- of the vadose zone integrated in this program. Check your input!""")
-        try:
-            par.step != 0 or par.step != 1
-        except KeyError:
-            print("""Parameter step has to be 0 (for yearly values) or 1 (for
- monthly values. Check your input!""")
-            exit()
-
+        pass
+        #MARKER tests (e.g. check existance of file pathes, etc.)
 
     def readDatas(path):
         """Read in datas."""
         path = pd.read_csv(path, sep=';', header=None)
         return path
-
 
     def convertTimeC(input_c):
         """Convert time column in tracer input concentration file."""
@@ -53,8 +59,9 @@ class Pre:
     def checkOutliers(input_c):
         """Check the input values for outliers."""
         pass
+        # MARKER test the time series for outliers and print warning
 
-    def weightVolumes(input_c):
+    def weightVolumes(par, input_c):
         """Weight the tracer input after the volume of precipitation."""
         datas_grouped_y = input_c.groupby(input_c['Date'].dt.year)
         listed_years = []
@@ -64,11 +71,12 @@ class Pre:
             year['weighted_c'] = 12 * year[3] * year[2] / sum_y
             listed_years.append(year)
         datas_w = pd.concat(listed_years).sort_values('Date')
+        par.weighted = True
         return datas_w
 
 
 class Par():
-    """Parameterisation."""
+    """Parameterisation for jupyter notebooks."""
 
     def __init__(self, step=0, TT=30, Thalf_1=12.43, PD=0.1, eta=0.5,
                  Thalf_2=np.inf, SOILM=1, MODNUM=1):
@@ -85,22 +93,22 @@ class Par():
 class VadoseZone():
     """Calculations in the soil and vadose zone."""
 
-    def rechargeEmpirical(datas, fe_p):
+    def rechargeEmpirical(datas, par):
         """Preprocess the input datas with an empirical factor."""
-        fe_c = 1.02 - fe_p / 50
+        fe = pd.read_csv(par.uz_path, sep=';')
         datas_grouped_m = datas.groupby(datas['Date'].dt.month)
         monthes = []
         for n in range(datas_grouped_m.ngroups):
             month = datas_grouped_m.get_group(n+1).copy()
-            month[2] = datas_grouped_m.get_group(n+1)[2] * fe_p[n]
-            month[3] = datas_grouped_m.get_group(n+1)[3] * fe_c[n]
+            month[2] = datas_grouped_m.get_group(n+1)[2] * fe['P'][n]
+            month[3] = datas_grouped_m.get_group(n+1)[3] * fe['C'][n]
             monthes.append(month)
         datas_f = pd.concat(monthes).sort_values('Date')  # MARKER sort index
         return datas_f
 
-    def rechargeModelled(datas, f_p):
-        """Preprocess the input datas with results of hydrologic model."""
-        f_c = 1.02 - f_p / 50
-        datas[2] = datas[2] * f_p
-        datas[3] = datas[3] * f_c
+    def rechargeModelled(datas, par):
+        """Preprocess the input datas with results of hydrological model."""
+        f = pd.read_csv(par.uz_path, sep=';')
+        datas[2] = datas[2] * f['P']
+        datas[3] = datas[3] * f['C']
         return datas
