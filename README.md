@@ -17,6 +17,7 @@ If you have any questions, write an email to jonas.vollhueter@tu-dresden.de.
 If you have experience with the `Python` programming language, just download the source code from this repository and move the `ISOSIMpy` package files (`Pre.py`, `Calculate.py`, `Multis.py`, `Post.py`, `main.py`) to a local directory from which you intend to work. Proceed with using the package as demonstrated in the examples / `Jupyter Notebooks`.
 
 If you do not have experience with the `Python` programming language, please perform the following steps:
+
 0. Download the source code in this repository
     1. [Here](https://github.com/jvollhueter/ISOSIMpy/tree/ISOSIMpy_FHDGGV), click on the green button labeled `Code` and select `download zip`
     2. After downloading, unpack the `zip`-archive into a target directory (name it, e.g., `ISOSIMpy`)
