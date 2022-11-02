@@ -65,6 +65,19 @@ the results!')
         else:
             pass  # MARKER Error
 
+        """
+        Notes on the solution routine / general Multis:
+        - why are errors never really raised but only print statements are
+            used instead?
+        - why not make this a function (of a base-class)?
+        - why not use scipy.signal.convolve / scipy.signal.fftconvolve?
+            - ultimately, all the LPMs in ISOSIMpy are just an application
+                of the convolution integral with different response functions
+        - who not have an attribute of the parent object (Multis), which
+            stores everything (e.g., results, inputs, etc.) and makes it
+            available everywhere
+        """
+
         temp = np.zeros((n, (n*2)))
         for i in range(1, n+1):
             temp[i-1, i-1:n+i-1] = Cin[i-1] * np.exp(-lambda_ * t) * f
