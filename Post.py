@@ -59,13 +59,26 @@ class Post():
         k = 0
         j = 0
 
-        tau = np.zeros(2, 4, len(show_gw_age))
+        # tau parameterizes the isolines in the diagram
+        #     corresponding to certain percentages of
+        #     tracer removal, i.e., the lines represent
+        #     water in which the tracers have been
+        #     reduced by a certain percentage relative
+        #     to young / recharging / precipitation water
+        tau = np.zeros((2, 4, len(show_gw_age)))
         for i in TTs:
+            # if the currently handeled mean TT corresponds to
+            #     a gw-age that should be handled, a line is
+            #     drawn from the origin to the corresponding
+            #     point in the diagram
             if i in show_gw_age:
+                # plot a text-box labelling the gw-age
                 plt.text(result_tt[date, k, 0]*1.02,
                          result_tt[date, k, 1],
                          str(i), backgroundcolor='black',
                          color='white')
+                # plot the line from the origin to the
+                #     corresponding point in the diagram
                 ax2.plot([0, result_tt[date, k, 0]],
                          [0, result_tt[date, k, 1]],
                          color='black')

@@ -46,6 +46,7 @@ class TracerTracer:
 
             k += 1
 
+        # result_tt has shape (n_tracers, n_mean_TTs, n_rain_data)
         self.result_tt = result_tt
 
 
