@@ -9,16 +9,16 @@ import numpy as np
 import Multis
 
 
-class Tracer:
+class Tracer():
     """Calculate Tracer."""
 
-    def __init__(self, par, Cin, rain):
+    def __init__(self, par, Cin, rain, printing=False):
 
         Multis.Multis()
 
         par.Thalf = par.Thalf_1
 
-        res = Multis.Multis.runMultis(Cin, rain[1], par)
+        res = Multis.Multis.runMultis(Cin=Cin, time=rain[1], par=par, printing=printing)
 
         self.result = res[:rain.shape[0]]
 
@@ -26,22 +26,22 @@ class Tracer:
 class TracerTracer:
     """Calculate Tracer Tracer."""
 
-    def __init__(self, par, Cin, Cin_2, rain, rain_2, TTs):
+    def __init__(self, par, Cin, Cin_2, rain, rain_2, TTs, printing=False):
 
         result_tt = np.zeros((2, len(TTs), rain.shape[0]))
 
         k = 0
         for n in TTs:
 
-            Multis.Multis()
+            Multis.Multis(printing)
 
             par.TT = n
             par.Thalf = par.Thalf_1
-            res = Multis.Multis.runMultis(Cin, rain[1], par)
+            res = Multis.Multis.runMultis(Cin=Cin, time=rain[1], par=par, printing=printing)
             result_tt[0, k] = res[:rain.shape[0]]
 
             par.Thalf = par.Thalf_2
-            res = Multis.Multis.runMultis(Cin_2, rain_2[1], par)
+            res = Multis.Multis.runMultis(Cin=Cin_2, time=rain_2[1], par=par, printing=printing)
             result_tt[1, k] = res[:rain_2.shape[0]]
 
             k += 1
@@ -53,22 +53,22 @@ class TracerTracer:
 class TriHe:
     """Calculate tritium helium."""
 
-    def __init__(self, par, Cin, rain, TTs):
+    def __init__(self, par, Cin, rain, TTs, printing=False):
 
         result_tt = np.zeros((2, len(TTs), rain.shape[0]))
 
         k = 0
         for n in TTs:
 
-            Multis.Multis()
+            Multis.Multis(printing=printing)
 
             par.TT = n
             par.Thalf = par.Thalf_1
-            res = Multis.Multis.runMultis(Cin, rain[1], par)
+            res = Multis.Multis.runMultis(Cin, rain[1], par, printing)
             result_tt[0, k] = res[:rain.shape[0]]
 
             par.Thalf = par.Thalf_2
-            res = Multis.Multis.runMultis(Cin, rain[1], par)
+            res = Multis.Multis.runMultis(Cin, rain[1], par, printing)
             result_tt[1, k] = res[:rain.shape[0]]
 
             k += 1

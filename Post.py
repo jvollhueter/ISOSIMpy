@@ -35,7 +35,7 @@ class Post():
         ax1.grid()
         ax2.grid()
 
-    def tracerTracer(result_tt, rain, rain_2, date, show_gw_age, TTs):
+    def tracerTracer(result_tt, rain, rain_2, date, show_gw_age, TTs, savefigs=True):
         """Visualize the result of the tracer tracer calculations."""
         result_tt = np.transpose(result_tt, axes=[2, 1, 0])
 
@@ -43,7 +43,7 @@ class Post():
         ax1 = fig.add_subplot(3, 1, 1)
         ax2 = fig.add_subplot(3, 1, 2)
         ax1.plot(rain['Date'], rain[3], label='Input Tracer 1')
-        ax1.plot(rain_2['Date'], rain_2[3], label='Input Tracer 2')
+        ax1.plot(rain_2['Date'], rain_2[3], ls="--", label='Input Tracer 2')
         ax2.plot(result_tt[date, :, 0], result_tt[date, :, 1])
         ax2.scatter(result_tt[date, :, 0], result_tt[date, :, 1])
         ax1.set(title='Tracer input',
@@ -95,6 +95,9 @@ class Post():
         ax2.grid()
         ax1.legend()
         ax2.legend(title='Tritium free water [%]:')
+
+        if savefigs:
+            plt.savefig("Tracer_Input_and_Tracer_Tracer_Graph.png", dpi=400)
 
     def triHe1(result_tt, rain, date, show_gw_age, TTs):
         """Visualize the result of the tritium helium calculations."""

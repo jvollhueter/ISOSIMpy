@@ -22,15 +22,16 @@ class Multis():
             information is printed or none
         """
         
-        self.printing = printing
+        printing = printing
 
-        if self.printing:
+        if printing:
             print('Your calculations will start soon. Look forward to \
                 the results!')
         # Marker adding tests here
 
-    def runMultis(Cin, time, par):
+    def runMultis(Cin, time, par, printing=False):
         """Calculate flow and decay processes in unsaturated zone."""
+
         n = len(time)
         lambda_ = np.log(2) / par.Thalf
         eta = par.eta
@@ -42,11 +43,11 @@ class Multis():
 
         TT_round = round(TT, 0)
 
-        if self.printing:
+        if printing:
             print('Used Model:')
 
         if par.MODNUM == 1:  # Piston Flow Model
-            if self.printing:
+            if printing:
                 print('PFM')
             f = np.zeros(n)
             if int(TT_round) <= n:
@@ -55,26 +56,26 @@ class Multis():
                 print('An error occured. TT > sim per')
 
         elif par.MODNUM == 2:  # Exponential Model
-            if self.printing:
+            if printing:
                 print('Exponential Model')
             f = 1/TT * np.exp(-t/TT)
 
         elif par.MODNUM == 3:  # Dispersion Model
-            if self.printing:
+            if printing:
                 print('Dispersion Model')
             PD = par.PD
             f = (4 * np.pi * PD * t / TT)**(-0.5) * 1 / t *\
                 np.exp(-(1 - t / TT)**2 / (4 * PD * t / TT))
 
         elif par.MODNUM == 4:  # Linear Model
-            if self.printing:
+            if printing:
                 print('Linear Model')
             f = np.zeros((n))
             ind = np.where(t <= (2 * TT))
             f[ind[0][0]:ind[0][-1]+1] = 1/(2*TT)
 
         elif par.MODNUM == 5:
-            if self.printing:
+            if printing:
                 print('Exponential Piston Flow Model')
             f = eta / TT * np.exp(- (eta * t) / TT + eta - 1)
             ind = np.where(t <= (eta-1)*TT/eta)
@@ -102,7 +103,7 @@ class Multis():
             temp[i-1, i-1:n+i-1] = Cin[i-1] * np.exp(-lambda_ * t) * f
         global Cout
         Cout = np.sum(temp, axis=0)
-        if self.printing:
+        if printing:
             print(TT_round)
 
         return Cout
