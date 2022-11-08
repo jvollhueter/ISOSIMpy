@@ -1,3 +1,7 @@
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jvollhueter/ISOSIMpy/ISOSIMpy_FHDGGV)
+
+Markdown icon Copy markdown link to clipboard 
+
 ISOSIMpy (c) by the ISOSIMpy Team
 
 ISOSIMpy is licensed under a
