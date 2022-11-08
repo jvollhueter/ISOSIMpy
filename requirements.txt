@@ -3,3 +3,5 @@ pandas
 matplotlib
 ipympl
 jupyterlab
+ipyfilechooser
+ipywidgets
