@@ -12,6 +12,12 @@ This code is still under development. None of the components have been finally t
 
 If you have any questions, write an email to jonas.vollhueter@tu-dresden.de.
 
+# MyBinder
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jvollhueter/ISOSIMpy/ISOSIMpy_FHDGGV)
+
+A Binder is available in which you can run the example notebooks remotely. With that, you do not need to install a Python distribution but you are also limited in functionality and adaptability (you cannot adapt the notebooks manually).
+
 # Installing and Using the Package
 
 If you have experience with the `Python` programming language, just download the source code from this repository and move the `ISOSIMpy` package files (`Pre.py`, `Calculate.py`, `Multis.py`, `Post.py`, `main.py`) to a local directory from which you intend to work. Proceed with using the package as demonstrated in the examples / `Jupyter Notebooks`.
