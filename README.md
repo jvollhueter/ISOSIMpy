@@ -1,7 +1,3 @@
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jvollhueter/ISOSIMpy/ISOSIMpy_FHDGGV)
-
-Markdown icon Copy markdown link to clipboard 
-
 ISOSIMpy (c) by the ISOSIMpy Team
 
 ISOSIMpy is licensed under a
@@ -15,6 +11,12 @@ work. If not, see <http://creativecommons.org/licenses/by-nc-sa/4.0/>.
 This code is still under development. None of the components have been finally tested.
 
 If you have any questions, write an email to jonas.vollhueter@tu-dresden.de.
+
+# MyBinder
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jvollhueter/ISOSIMpy/ISOSIMpy_FHDGGV)
+
+A Binder is available in which you can run the example notebooks remotely. With that, you do not need to install a Python distribution but you are also limited in functionality and adaptability (you cannot adapt the notebooks manually).
 
 # Installing and Using the Package
 
