@@ -25,8 +25,8 @@ If you have experience with the `Python` programming language, just download the
 If you do not have experience with the `Python` programming language, please perform the following steps:
 
 0. Download the source code in this repository
-    1. [Here](https://github.com/jvollhueter/ISOSIMpy/tree/ISOSIMpy_FHDGGV), click on the green button labeled `Code` and select `download zip`
-    2. After downloading, unpack the `zip`-archive into a target directory (name it, e.g., `ISOSIMpy`)
+    1. [here](https://github.com/jvollhueter/ISOSIMpy/tree/ISOSIMpy_FHDGGV), click on the green button labeled `Code` and select `download zip`
+    2. after downloading, unpack the `zip`-archive into a target directory (name it, e.g., `ISOSIMpy`)
 1. Download `Anaconda` (most popular and easy-to-use Python distribution) [here](https://www.anaconda.com/products/distribution)
 2. Install `Anaconda`
     1. during the installation **DO NOT SET THE PATH VARIABLE** and **DO NOT SET AS DEFAULT PYTHON INSTALLATION**
@@ -34,7 +34,10 @@ If you do not have experience with the `Python` programming language, please per
     1. press your `[WINDOWS]` button
     2. in the menu, locate the folder named `Anaconda` (or similar)
     3. open `Anaconda PowerShell Prompt`
-4. (still in the `PowerShell Prompt`) type `conda install -c conda-forge ipyfilechooser` and hit `[ENTER]`; if asked, type `y` and hit `[ENTER]` to proceed
-5. (still in the `PowerShell Prompt`) type `jupyter lab` and hit `[ENTER]`; now a new tab with `JupyterLab` should open in your browser
-    1. **Note**: `JupyterLab` may not work with the Microsoft Edge browser; use Chrome or Firefox instead (set Chrome or Firefox as default browser)
-6. In the file manager of `JupyterLab`, navigate to the `ISOSIMpy` directory and open an available `Jupyter Notebook` (e.g., `Notebook_Tracer_simple.ipynb`)
+4. Install a required package
+    1. (still in the `PowerShell Prompt`) type `conda install -c conda-forge ipyfilechooser` and hit `[ENTER]`; if asked, type `y` and hit `[ENTER]` to proceed
+5. Open `JupyterLab`
+    1. (still in the `PowerShell Prompt`) type `jupyter lab` and hit `[ENTER]`; now a new tab with `JupyterLab` should open in your browser
+    2. **Note**: `JupyterLab` may not work with the Microsoft Edge browser; use Chrome or Firefox instead (set Chrome or Firefox as default browser)
+6. Open an available `Jupyter Notebook`
+    1. in the file manager of `JupyterLab`, navigate to the `ISOSIMpy` directory and open an available `Jupyter Notebook` (e.g., `Notebook_Tracer_simple.ipynb`)
