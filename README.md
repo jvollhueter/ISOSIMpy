@@ -31,7 +31,7 @@ If you do not have experience with the `Python` programming language, please per
 2. Install `Anaconda`
 3. Open the Anaconda `PowerShell Prompt`
 4. Type `conda list` and hit `[ENTER]`
-5. Look through the list and check if `python`, `jupyterlab`, `numpy`, `pandas`, and `matplotlib` are available
+5. Look through the list and check if `python`, `jupyterlab`, `numpy`, `pandas`, `matplotlib`, `ipyfilechooser`, and `ipywidgets` are available
     1. If one of the packages is not available:
     2. (still in the `PowerShell Prompt`) type `conda install [PACKAGENAME]` and hit `[ENTER]`, where you replace `[PACKAGENAME]` by the missing package (i.e., `numpy`, `pandas`, `matplotlib`, etc.); if asked, type `y` and hit `[ENTER]` to proceed
 6. (still in the `PowerShell Prompt`) type `jupyter lab` and hit `[ENTER]`; now a new tab with `JupyterLab` should open in your browser
