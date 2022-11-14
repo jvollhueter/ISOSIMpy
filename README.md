@@ -10,4 +10,4 @@ work. If not, see <http://creativecommons.org/licenses/by-nc-sa/4.0/>.
 
 This code is still under development. None of the components have been finally tested.
 
-If you have any questions, write an email to jonas.vollhueter@tu-dresden.de.
+If you have any questions, write an email to jonas.vollhueter@tu-dresden.d or max_gustav.rudolph@tu-dresden.de.
