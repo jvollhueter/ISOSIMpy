@@ -65,7 +65,6 @@ class Multis():
                 print('Dispersion Model')
             PD = par.PD
             f = (4 * np.pi * PD * t / TT)**(-0.5) * 1 / t *\
-                np.exp(-(1 - t / TT)**2 / (4 * PD * t / TT))
 
         elif par.MODNUM == 4:  # Linear Model
             if printing:
@@ -81,7 +80,6 @@ class Multis():
             ind = np.where(t <= (eta-1)*TT/eta)
             if ind[0].size > 0:
                 f[ind[0][0]:ind[0][-1]+1] = 0
-
         else:
             pass  # MARKER Error
 

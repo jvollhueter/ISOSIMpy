@@ -31,7 +31,8 @@ class Post():
         ax2.set(title='Tracer Sink',
                 ylabel='$c$ [TU]',
                 xlabel='t',
-                ylim=0)
+                ylim=min([min(result_tt[date, :, 1]), 0]),
+                xlim=min([min(result_tt[date, :, 0]), 0]))
         ax1.grid()
         ax2.grid()
 
