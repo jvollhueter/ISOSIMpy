@@ -65,6 +65,7 @@ class Multis():
                 print('Dispersion Model')
             PD = par.PD
             f = (4 * np.pi * PD * t / TT)**(-0.5) * 1 / t *\
+                np.exp(-(1 - t / TT)**2 / (4 * PD * t / TT))
 
         elif par.MODNUM == 4:  # Linear Model
             if printing:
